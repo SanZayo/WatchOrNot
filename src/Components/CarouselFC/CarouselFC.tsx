@@ -1,13 +1,17 @@
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import { Button, Carousel, Container, Figure } from "react-bootstrap";
 import useMovies, { Movies } from "../../Hooks/useMovies";
-import { Badge, Button, Carousel, Container, Figure } from "react-bootstrap";
 
 import styles from "./index.module.css";
 import useLanguages from "../../Hooks/useLanguages";
 
 function CarouselFC() {
-  const trending: Movies[] = useMovies("discover/movie", 20);
+  const trending: Movies[] = useMovies(
+    "discover/movie",
+    20,
+    "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
+  );
   const languages = useLanguages();
 
   return (
@@ -20,13 +24,17 @@ function CarouselFC() {
                 <Carousel.Caption bsPrefix={styles.carouselCaption}>
                   <Figure.Image
                     className={styles.figureImg}
-                    src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
                   />
-                  <h3>
+                  <h2>
                     {item.name || item.title} ({item.release_date?.split("-")[0]})
-                  </h3>
+                  </h2>
                   <p>
-                    <span className={styles.vote}>{item.vote_average}</span>
+                    <span className={styles.vote}>
+                      <i className="bi bi-star-fill"></i>
+                      {` `}
+                      {item.vote_average}
+                    </span>
                     {`/10 `}
                     <i className="bi bi-dot"></i>
                     {` `}

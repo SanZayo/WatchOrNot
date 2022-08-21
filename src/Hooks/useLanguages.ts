@@ -4,6 +4,7 @@ function useLanguages() {
     hi: "Hindi",
     ta: "Tamil",
     te: "Telugu",
+    ka: "Kannada",
     ml: "Malayalam",
     mr: "Marathi",
   };

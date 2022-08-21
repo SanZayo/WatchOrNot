@@ -9,9 +9,11 @@ import "./App.css";
 
 function App() {
   return (
-    <ThemeProvider breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]} minBreakpoint="xxs">
-      <AppRoutes />
-    </ThemeProvider>
+    <div className="movie-app">
+      <ThemeProvider breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]} minBreakpoint="xxs">
+        <AppRoutes />
+      </ThemeProvider>
+    </div>
   );
 }
 

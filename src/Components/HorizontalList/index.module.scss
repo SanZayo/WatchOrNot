@@ -1,0 +1,22 @@
+.listRow {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  padding: 1rem 0;
+  gap: 1rem;
+}
+
+.card {
+  width: 12rem;
+  height: 100% !important;
+  cursor: pointer;
+  background-color: #000 !important;
+  border-radius: var(--bs-card-inner-border-radius) !important;
+  overflow: hidden;
+}
+
+.cardBody {
+  position: relative;
+  background: #000;
+  border-radius: var(--bs-card-inner-border-radius) !important;
+}

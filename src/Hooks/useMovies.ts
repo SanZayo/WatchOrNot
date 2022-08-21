@@ -21,12 +21,12 @@ export interface Movies {
 }
 
 
-function useMovies(endpoint: string, count: number = 4): Movies[] {
+function useMovies(endpoint: string, count: number = 4, filter: string = ""): Movies[] {
   const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
     fetch(
-      `${process.env.REACT_APP_API_URL}${endpoint}?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&with_original_language=hi|kn|ml|ta|te|mr&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10`
+      `${process.env.REACT_APP_API_URL}${endpoint}?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&language=en-US&with_original_language=hi|kn|ml|ta|te|mr${filter}`
     )
       .then((res) => res.json())
       .then((data) => {
