@@ -1,0 +1,27 @@
+.mediaDetails {
+  text-align: center;
+  padding: 1rem;
+}
+
+.certification {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  padding: 0px 0.4rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.listRow {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  padding: 1rem 0;
+  gap: 1rem;
+  color: #000;
+}
+
+.figureImg {
+  border-radius: 5px;
+}

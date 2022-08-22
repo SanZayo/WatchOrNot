@@ -1,38 +1,43 @@
-.App {
-  text-align: center;
+#root {
+  background: #000;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: #fff;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.movie-app {
+  width: 90vw;
+  margin: 0 auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.imgOverlay {
+  visibility: hidden;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: end;
+  word-break: break-word;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  border-radius: 0px !important;
 }
 
-.App-link {
-  color: #61dafb;
+.card-img-top:hover + .imgOverlay, .imgOverlay:hover{
+  visibility: visible;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--bs-gray-dark);
+  border: 2px solid var(--bs-gray-dark);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::selection {
+  background-color: var(--bs-gray-dark);
+  color: var(--bs-gray-dark);
 }
