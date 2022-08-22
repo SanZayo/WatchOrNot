@@ -1,13 +1,15 @@
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Button, Carousel, Container, Figure } from "react-bootstrap";
-import useMovies, { Movies } from "../../Hooks/useMovies";
+import useMediaType, { MediaType } from "../../Hooks/useMediaType";
 
 import styles from "./index.module.css";
 import useLanguages from "../../Hooks/useLanguages";
+import Rating from "../Rating";
+import { Link } from "react-router-dom";
 
 function CarouselFC() {
-  const trending: Movies[] = useMovies(
+  const trending: MediaType[] = useMediaType(
     "discover/movie",
     20,
     "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
@@ -30,25 +32,22 @@ function CarouselFC() {
                     {item.name || item.title} ({item.release_date?.split("-")[0]})
                   </h2>
                   <p>
-                    <span className={styles.vote}>
-                      <i className="bi bi-star-fill"></i>
-                      {` `}
-                      {item.vote_average}
-                    </span>
-                    {`/10 `}
+                    <Rating vote_average={item.vote_average} />
                     <i className="bi bi-dot"></i>
                     {` `}
                     {languages[item.original_language]}
                   </p>
                   <p className={styles.overview}>{item.overview}</p>
                   <div className="actions">
-                    <Button variant="light">
+                    {/* <Button variant="light">
                       <i className="bi bi-play-fill"></i> <span>Watch Trailer</span>
                     </Button>
-                    {` `}
-                    <Button variant="outline-light">
-                      <i className="bi bi-info-circle"></i> <span>More Info</span>
-                    </Button>
+                    {` `} */}
+                    <Link to={`/movie/${item.id}`}>
+                      <Button variant="light">
+                        <i className="bi bi-info-circle"></i> <span>More Info</span>
+                      </Button>
+                    </Link>
                   </div>
                 </Carousel.Caption>
               </Col>

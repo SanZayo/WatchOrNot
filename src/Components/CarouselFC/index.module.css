@@ -32,11 +32,6 @@
   border-radius: 5px;
 }
 
-.vote {
-  font-size: 1.4rem;
-  font-weight: bold;
-}
-
 .overview {
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export interface Movies {
+export interface MediaType {
   adult: boolean;
   backdrop_path: string;
   id: number;
@@ -21,7 +21,7 @@ export interface Movies {
 }
 
 
-function useMovies(endpoint: string, count: number = 4, filter: string = ""): Movies[] {
+function useMediaType(endpoint: string, count: number = 4, filter: string = ""): MediaType[] {
   const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
@@ -38,4 +38,4 @@ function useMovies(endpoint: string, count: number = 4, filter: string = ""): Mo
   return movieList;
 }
 
-export default useMovies;
+export default useMediaType;
