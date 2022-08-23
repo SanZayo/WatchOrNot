@@ -1,12 +1,14 @@
+import { Link } from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import { Button, Carousel, Container, Figure } from "react-bootstrap";
-import useMediaType, { MediaType } from "../../Hooks/useMediaType";
+import Carousel from "react-bootstrap/Carousel";
+import Figure from "react-bootstrap/Figure";
+import Button from "react-bootstrap/Button";
 
-import styles from "./CarouselFC.module.css";
+import useMediaType, { MediaType } from "../../Hooks/useMediaType";
 import useLanguages from "../../Hooks/useLanguages";
 import Rating from "../Rating";
-import { Link } from "react-router-dom";
+import styles from "./CarouselFC.module.scss";
 
 function CarouselFC() {
   const trending: MediaType[] = useMediaType(
