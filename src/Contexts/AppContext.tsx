@@ -25,7 +25,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
 
   useEffect(() => {
     navigate("/");
-  }, [navigate, state.activeMediaType]);
+  }, [state.activeMediaType]);
 
   return <AppContext.Provider value={{ state, dispatch }}>{children}</AppContext.Provider>;
 };
