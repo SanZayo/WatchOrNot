@@ -1,3 +1,9 @@
+.modalTitle {
+  background-color: #000;
+  color: #fff;
+  border-bottom: transparent !important;
+}
+
 .fluidMedia {
   min-height: 85vh;
   position: relative;
@@ -6,6 +12,7 @@
   overflow: hidden;
   border-bottom-left-radius: var(--bs-modal-inner-border-radius);
   border-bottom-right-radius: var(--bs-modal-inner-border-radius);
+  background-color: #000;
 
   > div, > iframe {
     position: absolute;

@@ -1,8 +1,8 @@
 import { Badge, Button, ButtonGroup, Card, Col, Container, Figure, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import Rating from "../../Components/Rating";
 import useLanguages from "../../Hooks/useLanguages";
-import useMediaTypeDetails, { Flatrate, In, MediaTypeDetails, Result } from "../../Hooks/useMediaTypeDetails";
+import useMediaTypeDetails, { Flatrate, In, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaTypeDetails";
 import map from "lodash/map";
 import find from "lodash/find";
 import uniqBy from "lodash/uniqBy";
@@ -13,11 +13,15 @@ import { useState, useEffect } from "react";
 import Loading from "../../Components/Loading";
 import Trailer from "../../Components/Trailer";
 
-function Details() {
-  const [videosList, setVideosList] = useState<Result[]>();
-  const [activeVideo, setActiveVideo] = useState<Result>();
-  const [showVideo, setShowVideo] = useState<boolean>(false);
-  let { type, typeId } = useParams();
+type DetailsProp = {
+  type: string;
+};
+
+function Details({ type }: DetailsProp) {
+  const location = useLocation();
+  const [videosList, setVideosList] = useState<VideoResults[]>();
+  const [activeVideo, setActiveVideo] = useState<VideoResults>();
+  let { typeId } = useParams();
 
   const { mediaDetails, cast, crew }: MediaTypeDetails = useMediaTypeDetails(
     `${type}/${typeId}`,
@@ -130,12 +134,16 @@ function Details() {
                     </ButtonGroup>
                   </div>
                 )}
-                <div className={styles.fluidMedia}>
-                  <div
-                    style={{ backgroundImage: `url(https://i.ytimg.com/vi/${activeVideo.key}/maxresdefault.jpg)` }}
-                    onClick={() => setShowVideo(true)}
-                  ></div>
-                </div>
+                <Link
+                  to={`/video/${activeVideo.id}`}
+                  state={{ background: location, trailerVideo: activeVideo as VideoResults }}
+                >
+                  <div className={styles.fluidMedia}>
+                    <div
+                      style={{ backgroundImage: `url(https://i.ytimg.com/vi/${activeVideo.key}/maxresdefault.jpg)` }}
+                    ></div>
+                  </div>
+                </Link>
               </>
             )}
             <div className="mt-5 mb-5">
@@ -161,38 +169,40 @@ function Details() {
                   </Col>
                 ))}
             </div>
-            <h5>Recommendations</h5>
-            <div className={"mb-5 " + styles.listRowContainer}>
-              {mediaDetails.recommendations.results.length > 0 &&
-                mediaDetails.recommendations.results.map((item, idx) => (
-                  <Col key={`${idx}_${item.id}`}>
-                    <Link to={`/movie/${item.id}`}>
-                      <Card bsPrefix={styles.card + " card"} text="light">
-                        <Card.Img
-                          className={styles.cardImg}
-                          variant="top"
-                          src={`https://image.tmdb.org/t/p/w300${item.backdrop_path}`}
-                        />
-                        <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>
-                          <div className="h5">{item.title}</div>
-                          <div>
-                            <Rating vote_average={item.vote_average} />
-                            {` `}
-                            {languages[item.original_language]}
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </Link>
-                  </Col>
-                ))}
-            </div>
+            {mediaDetails.recommendations.results.length > 0 && (
+              <>
+                <h5>Recommendations</h5>
+                <div className={"mb-5 " + styles.listRowContainer}>
+                  {mediaDetails.recommendations.results.map((item, idx) => (
+                    <Col key={`${idx}_${item.id}`}>
+                      <Link to={`/movie/${item.id}`}>
+                        <Card bsPrefix={styles.card + " card"} text="light">
+                          <Card.Img
+                            className={styles.cardImg}
+                            variant="top"
+                            src={`https://image.tmdb.org/t/p/w300${item.backdrop_path}`}
+                          />
+                          <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>
+                            <div className="h5">{item.title}</div>
+                            <div>
+                              <Rating vote_average={item.vote_average} />
+                              {` `}
+                              {languages[item.original_language]}
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </Link>
+                    </Col>
+                  ))}
+                </div>
+              </>
+            )}
             <div className="mb-4 "></div>
           </Col>
         </Row>
       ) : (
         <Loading />
       )}
-      <Trailer show={showVideo} setShow={setShowVideo} activeVideo={activeVideo as Result} />
     </>
   );
 }

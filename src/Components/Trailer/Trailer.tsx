@@ -1,26 +1,30 @@
 import { Dispatch, SetStateAction } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Result } from "../../Hooks/useMediaTypeDetails";
+import { useNavigate } from "react-router-dom";
+import { VideoResults } from "../../Hooks/useMediaTypeDetails";
 
 import styles from "./Trailer.module.scss";
 
 type TrailerProps = {
-  show: boolean;
-  setShow: Dispatch<SetStateAction<boolean>>;
-  activeVideo: Result;
+  video: VideoResults;
 };
 
-function Trailer({ show, setShow, activeVideo }: TrailerProps) {
+function Trailer({ video }: TrailerProps) {
+  const navigate = useNavigate();
+
+  const closeModal = () => {
+    navigate(-1);
+  };
+
   return (
-    <Modal show={show} onHide={() => setShow(false)} size="xl" fullscreen="md-down" bg="black">
-      <Modal.Header closeButton>
-        <Modal.Title>{activeVideo?.type}</Modal.Title>
+    <Modal show={true} onHide={() => closeModal()} size="xl" fullscreen="md-down">
+      <Modal.Header className={styles.modalTitle} closeButton closeVariant="white">
+        <Modal.Title>{video?.type}</Modal.Title>
       </Modal.Header>
       <Modal.Body className={styles.fluidMedia}>
         <iframe
-          src={"https://www.youtube.com/embed/" + activeVideo?.key}
-          title={activeVideo?.name}
-          className="embed hide"
+          src={`https://www.youtube.com/embed/${video?.key}?&autoplay=1`}
+          title={video?.name}
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
