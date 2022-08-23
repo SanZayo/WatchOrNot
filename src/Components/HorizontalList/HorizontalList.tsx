@@ -26,7 +26,6 @@ function HorizontalList(props: any) {
                   <Card.Img
                     className={styles.cardImg}
                     variant="top"
-                    width={200}
                     src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
                   />
                   <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>

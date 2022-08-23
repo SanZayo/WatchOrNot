@@ -18,7 +18,7 @@ function Details() {
 
   const { mediaDetails, cast, crew }: MediaTypeDetails = useMediaTypeDetails(
     `${type}/${typeId}`,
-    "&append_to_response=videos,images,releases,watch/providers"
+    "&append_to_response=videos,images,releases,watch/providers,recommendations"
   );
   const languages = useLanguages();
 
@@ -49,6 +49,10 @@ function Details() {
       setActiveVideo(list[0]);
     }
   }, [mediaDetails]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [type, typeId]);
 
   return (
     <>
@@ -155,6 +159,31 @@ function Details() {
                         <Card.Text>{item.character}</Card.Text>
                       </Card.Body>
                     </Card>
+                  </Col>
+                ))}
+            </div>
+            <h5>Recommendations</h5>
+            <div className={"mb-5 " + styles.listRowContainer}>
+              {mediaDetails.recommendations.results.length > 0 &&
+                mediaDetails.recommendations.results.map((item, idx) => (
+                  <Col key={`${idx}_${item.id}`}>
+                    <Link to={`/movie/${item.id}`}>
+                      <Card bsPrefix={styles.card + " card"} text="light">
+                        <Card.Img
+                          className={styles.cardImg}
+                          variant="top"
+                          src={`https://image.tmdb.org/t/p/w300${item.backdrop_path}`}
+                        />
+                        <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>
+                          <div className="h5">{item.title}</div>
+                          <div>
+                            <Rating vote_average={item.vote_average} />
+                            {` `}
+                            {languages[item.original_language]}
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Link>
                   </Col>
                 ))}
             </div>

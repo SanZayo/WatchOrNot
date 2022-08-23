@@ -29,7 +29,13 @@ export interface MediaDetails {
   vote_count: number;
   releases: Releases;
   "watch/providers": WatchProviders;
+  recommendations: RecommendationsObj
 }
+export interface RecommendationsObj {
+  page: number;
+  results: Recommendations[];
+}
+
 
 export interface Videos {
   results: Result[];
@@ -140,6 +146,24 @@ export interface MediaTypeDetails {
   crew: Crew[];
 }
 
+export interface Recommendations {
+  adult: boolean;
+  backdrop_path: string;
+  id: number;
+  title: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  poster_path: string;
+  media_type: string;
+  genre_ids: number[];
+  popularity: number;
+  release_date: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
 function useMediaTypeDetails(endpoint: string, filter: string = ""): MediaTypeDetails {
   const [details, setDetails] = useState({
     mediaDetails: {} as MediaDetails,
@@ -151,12 +175,12 @@ function useMediaTypeDetails(endpoint: string, filter: string = ""): MediaTypeDe
 
     const getDetails = async () => {
       const movieDetails = await fetch(
-        `${process.env.REACT_APP_API_URL}${endpoint}?api_key=${process.env.REACT_APP_API_KEY}&language=en-US${filter}`
+        `${process.env.REACT_APP_API_URL}${endpoint}?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&language=en-US${filter}`
       );
       const movieDetailsData = await movieDetails.json();
 
       const movieCredits = await fetch(
-        `${process.env.REACT_APP_API_URL}${endpoint}/credits?api_key=${process.env.REACT_APP_API_KEY}&language=en-US`
+        `${process.env.REACT_APP_API_URL}${endpoint}/credits?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&language=en-US`
       );
       const movieCreditsData = await movieCredits.json();
 
@@ -167,7 +191,7 @@ function useMediaTypeDetails(endpoint: string, filter: string = ""): MediaTypeDe
       });
     }
     getDetails();
-  }, []);
+  }, [endpoint, filter]);
 
   return details as MediaTypeDetails;
 }

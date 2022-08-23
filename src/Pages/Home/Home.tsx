@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Container } from "react-bootstrap";
 import CarouselFC from "../../Components/CarouselFC";
 import Header from "../../Components/Header";
@@ -5,6 +6,9 @@ import HorizontalList from "../../Components/HorizontalList";
 // import styles from "./Home.module.css";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <CarouselFC />
