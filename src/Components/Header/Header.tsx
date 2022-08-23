@@ -1,10 +1,17 @@
+import { useContext } from "react";
+import { Button, ButtonGroup } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { NavLink, useLocation } from "react-router-dom";
+import { AppContext } from "../../Contexts/AppContext";
 
 function Header() {
+  const {
+    state: { activeMediaType },
+    dispatch,
+  } = useContext(AppContext);
   const location = useLocation();
   const expand = "md";
   const linkStyle = "nav-link d-flex gap-2 ps-3 pe-3";
@@ -24,6 +31,20 @@ function Header() {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
+              <ButtonGroup aria-label="Basic example">
+                <Button
+                  variant={activeMediaType === "movie" ? "primary" : "light"}
+                  onClick={() => dispatch({ activeMediaType: "movie" })}
+                >
+                  Movies
+                </Button>
+                <Button
+                  variant={activeMediaType === "tv" ? "primary" : "light"}
+                  onClick={() => dispatch({ activeMediaType: "tv" })}
+                >
+                  TV Shows
+                </Button>
+              </ButtonGroup>
               <Nav.Link as={NavLink} to="/search" state={{ background: location }} bsPrefix={linkStyle}>
                 <i className="bi bi-search"></i>
                 Search

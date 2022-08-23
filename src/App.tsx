@@ -8,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import "./App.css";
+import { AppProvider } from "./Contexts/AppContext";
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
       <ThemeProvider breakpoints={["xxxl", "xxl", "xl", "lg", "md", "sm", "xs", "xxs"]} minBreakpoint="xxs">
         <Container fluid>
           <BrowserRouter>
-            <AppRoutes />
+            <AppProvider>
+              <AppRoutes />
+            </AppProvider>
           </BrowserRouter>
         </Container>
       </ThemeProvider>

@@ -1,13 +1,19 @@
+import { useContext } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import useMedia, { MediaType } from "../../Hooks/useMedia";
 import { Link } from "react-router-dom";
+
 import Rating from "../Rating";
 import useLanguages from "../../Hooks/useLanguages";
+import useMedia, { MediaType } from "../../Hooks/useMedia";
+import { AppContext } from "../../Contexts/AppContext";
 
 import styles from "./HorizontalList.module.scss";
 
 function HorizontalList(props: any) {
-  const list: MediaType[] = useMedia("movie/" + props.name, 20);
+  const {
+    state: { activeMediaType },
+  } = useContext(AppContext);
+  const list: MediaType[] = useMedia(`${activeMediaType}/${props.name}`, 20);
   const languages = useLanguages();
 
   return (
@@ -20,8 +26,8 @@ function HorizontalList(props: any) {
       <Row bsPrefix={"mb-4 " + styles.listRow}>
         <div className={styles.listRowContainer}>
           {list.map((item, idx) => (
-            <Col key={`${idx}_${item.id}`}>
-              <Link to={`/movie/${item.id}`}>
+            <Col key={`${idx}_${item.id}`} className="flex-grow-0">
+              <Link to={`/${activeMediaType}/${item.id}`}>
                 <Card bsPrefix={styles.card + " card"} text="light">
                   <Card.Img
                     className={styles.cardImg}

@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -9,10 +10,14 @@ import useMedia, { MediaType } from "../../Hooks/useMedia";
 import useLanguages from "../../Hooks/useLanguages";
 import Rating from "../Rating";
 import styles from "./CarouselFC.module.scss";
+import { AppContext } from "../../Contexts/AppContext";
 
 function CarouselFC() {
+  const {
+    state: { activeMediaType },
+  } = useContext(AppContext);
   const trending: MediaType[] = useMedia(
-    "discover/movie",
+    "discover/" + activeMediaType,
     1,
     "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
   );
@@ -30,7 +35,8 @@ function CarouselFC() {
                   src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
                 />
                 <h3>
-                  {item.name || item.title} ({item.release_date?.split("-")[0]})
+                  {item.name || item.title}
+                  {` `} {item.release_date && `(${item.release_date?.split("-")[0]})`}
                 </h3>
                 <p>
                   <Rating vote_average={item.vote_average} />
@@ -43,7 +49,7 @@ function CarouselFC() {
                       <i className="bi bi-play-fill"></i> <span>Watch Trailer</span>
                     </Button>
                     {` `} */}
-                  <Link to={`/movie/${item.id}`}>
+                  <Link to={`/${activeMediaType}/${item.id}`}>
                     <Button variant="light">
                       <i className="bi bi-info-circle"></i> <span>More Info</span>
                     </Button>

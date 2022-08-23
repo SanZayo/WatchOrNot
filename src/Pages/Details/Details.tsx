@@ -28,16 +28,17 @@ function Details({ type }: DetailsProp) {
   );
   const languages = useLanguages();
 
-  const genres: string = Object.keys(mediaDetails).length > 0 ? map(mediaDetails.genres, "name").join(", ") : "";
+  const mediaDetailsLength = Object.keys(mediaDetails).length;
+
+  const genres: string = mediaDetailsLength > 0 ? map(mediaDetails.genres, "name").join(", ") : "";
   const convertToHours = (n: number): string => `${(n / 60) ^ 0}`.slice(-2) + "h " + ("0" + (n % 60)).slice(-2) + "min";
-  const languageSpoken =
-    Object.keys(mediaDetails).length > 0 ? map(mediaDetails.spoken_languages, "english_name").join(", ") : "";
+  const languageSpoken = mediaDetailsLength > 0 ? map(mediaDetails.spoken_languages, "english_name").join(", ") : "";
 
   const certificate =
-    Object.keys(mediaDetails).length > 0 ? find(mediaDetails.releases.countries, ["iso_3166_1", "IN"]) : "";
+    mediaDetailsLength > 0 && type !== "tv" ? find(mediaDetails.releases.countries, ["iso_3166_1", "IN"]) : "";
 
   let watchProviders: Flatrate[] = [];
-  if (Object.keys(mediaDetails).length > 0 && mediaDetails["watch/providers"].results.IN) {
+  if (mediaDetailsLength > 0 && mediaDetails["watch/providers"].results.IN) {
     const types = mediaDetails["watch/providers"].results.IN as any;
     const watchTypes: Flatrate[] = [];
     Object.keys(types).forEach((item: string) => {
@@ -62,7 +63,7 @@ function Details({ type }: DetailsProp) {
 
   return (
     <>
-      {Object.keys(mediaDetails).length > 0 ? (
+      {mediaDetailsLength > 0 ? (
         <Row>
           <Col md={3}>
             <div className={styles.mediaDetails}>
@@ -71,7 +72,8 @@ function Details({ type }: DetailsProp) {
                 src={`https://image.tmdb.org/t/p/w300/${mediaDetails.poster_path}`}
               />
               <h3>
-                {mediaDetails.title} ({mediaDetails.release_date.split("-")[0]})
+                {mediaDetails.title} {` `}{" "}
+                {mediaDetails.release_date && `(${mediaDetails.release_date?.split("-")[0]})`}
               </h3>
               {mediaDetails.tagline && (
                 <p>
