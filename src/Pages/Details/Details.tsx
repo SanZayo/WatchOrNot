@@ -1,4 +1,4 @@
-import { Badge, Button, ButtonGroup, Card, Col, Container, Figure, Row, Spinner } from "react-bootstrap";
+import { Badge, Button, ButtonGroup, Card, Col, Container, Figure, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import Rating from "../../Components/Rating";
 import useLanguages from "../../Hooks/useLanguages";
@@ -10,15 +10,18 @@ import moment from "moment";
 
 import styles from "./Details.module.scss";
 import { useState, useEffect } from "react";
+import Loading from "../../Components/Loading";
+import Trailer from "../../Components/Trailer";
 
 function Details() {
   const [videosList, setVideosList] = useState<Result[]>();
   const [activeVideo, setActiveVideo] = useState<Result>();
+  const [showVideo, setShowVideo] = useState<boolean>(false);
   let { type, typeId } = useParams();
 
   const { mediaDetails, cast, crew }: MediaTypeDetails = useMediaTypeDetails(
     `${type}/${typeId}`,
-    "&append_to_response=videos,images,releases,watch/providers,recommendations"
+    "&append_to_response=videos,images,releases,watch/providers,recommendations,translations"
   );
   const languages = useLanguages();
 
@@ -128,14 +131,10 @@ function Details() {
                   </div>
                 )}
                 <div className={styles.fluidMedia}>
-                  <iframe
-                    src={"https://www.youtube.com/embed/" + activeVideo.key}
-                    title={activeVideo.name}
-                    className="embed hide"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
+                  <div
+                    style={{ backgroundImage: `url(https://i.ytimg.com/vi/${activeVideo.key}/maxresdefault.jpg)` }}
+                    onClick={() => setShowVideo(true)}
+                  ></div>
                 </div>
               </>
             )}
@@ -191,12 +190,9 @@ function Details() {
           </Col>
         </Row>
       ) : (
-        <div className="d-flex align-items-center justify-content-center vh-100 w100">
-          <Spinner animation="border" role="status" variant="light">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
+        <Loading />
       )}
+      <Trailer show={showVideo} setShow={setShowVideo} activeVideo={activeVideo as Result} />
     </>
   );
 }

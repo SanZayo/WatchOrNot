@@ -1,0 +1,17 @@
+.fluidMedia {
+  min-height: 85vh;
+  position: relative;
+  padding-bottom: 56.25%; /* proportion value to aspect ratio 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-bottom-left-radius: var(--bs-modal-inner-border-radius);
+  border-bottom-right-radius: var(--bs-modal-inner-border-radius);
+
+  > div, > iframe {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

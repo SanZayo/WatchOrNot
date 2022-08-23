@@ -29,8 +29,9 @@ export interface MediaDetails {
   vote_count: number;
   releases: Releases;
   "watch/providers": WatchProviders;
-  recommendations: RecommendationsObj
+  recommendations: RecommendationsObj;
 }
+
 export interface RecommendationsObj {
   page: number;
   results: Recommendations[];
