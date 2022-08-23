@@ -22,7 +22,7 @@ export interface MediaType {
 
 
 function useMedia(endpoint: string, count: number = 4, filter: string = ""): MediaType[] {
-  const [movieList, setMovieList] = useState([]);
+  const [mediaList, setMediaList] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -30,12 +30,13 @@ function useMedia(endpoint: string, count: number = 4, filter: string = ""): Med
     )
       .then((res) => res.json())
       .then((data) => {
-        setMovieList(data.results.splice(0, count));
+        const items = data.results.filter((item: MediaType) => item.backdrop_path && item.poster_path).splice(0, count);
+        setMediaList(items);
       })
       .catch(err => console.log(err));
   }, [endpoint, count, filter]);
 
-  return movieList;
+  return mediaList;
 }
 
 export default useMedia;

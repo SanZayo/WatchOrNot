@@ -18,7 +18,7 @@ function CarouselFC() {
   } = useContext(AppContext);
   const trending: MediaType[] = useMedia(
     "discover/" + activeMediaType,
-    1,
+    20,
     "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
   );
   const languages = useLanguages();
