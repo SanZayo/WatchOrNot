@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 function CarouselFC() {
   const trending: MediaType[] = useMediaType(
     "discover/movie",
-    2,
+    1,
     "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
   );
   const languages = useLanguages();
@@ -19,7 +19,7 @@ function CarouselFC() {
   return (
     <Carousel fade controls={false} indicators={false}>
       {trending.map((item) => (
-        <Carousel.Item key={item.id}>
+        <Carousel.Item key={item.id} className={styles.figureImg}>
           <Row>
             <Col md={4}>
               <Carousel.Caption bsPrefix={styles.carouselCaption}>
@@ -27,12 +27,11 @@ function CarouselFC() {
                   className={styles.figureImg}
                   src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
                 />
-                <h2>
+                <h3>
                   {item.name || item.title} ({item.release_date?.split("-")[0]})
-                </h2>
+                </h3>
                 <p>
                   <Rating vote_average={item.vote_average} />
-                  <i className="bi bi-dot"></i>
                   {` `}
                   {languages[item.original_language]}
                 </p>
@@ -50,7 +49,7 @@ function CarouselFC() {
                 </div>
               </Carousel.Caption>
             </Col>
-            <Col md={6}>
+            <Col md={8}>
               <Figure className={styles.figure}>
                 <div className={styles.carouselFigure}></div>
                 <Figure.Image

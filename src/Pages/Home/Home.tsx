@@ -8,7 +8,7 @@ function Home() {
   return (
     <>
       <CarouselFC />
-      <HorizontalList name="now_playing" displayName="Now Playing" />
+      <HorizontalList name="now_playing" displayName="In Theaters" />
       <HorizontalList name="upcoming" displayName="Upcoming" />
       <HorizontalList name="popular" displayName="Popular" />
       <HorizontalList name="top_rated" displayName="Top Rated" />

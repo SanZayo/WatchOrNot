@@ -1,0 +1,77 @@
+.listRow {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 1.2rem;
+  margin-right: -5px;
+}
+
+.listRowContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-y: visible;
+  padding: 1rem 0;
+  gap: 0.5rem;
+  width: 100vw;
+}
+
+.card {
+  width: 14rem;
+  height: 24rem;
+  cursor: pointer;
+  background-color: #000 !important;
+  border-radius: var(--bs-card-inner-border-radius) !important;
+  border-color: transparent!important;
+  overflow: hidden;
+  -webkit-transition: all .5s ease;
+  -moz-transition: all .5s ease;
+  transition: all .5s ease;
+
+  &:hover {
+    background-color: #000 !important;
+    border-radius: var(--bs-card-inner-border-radius) !important;
+    border-color: transparent!important;
+    -webkit-transform: scale(1.15);
+    -moz-transform: scale(1.15);
+    transform: scale(1.15);
+    -webkit-box-shadow: 0 0 1rem rgb(0 0 0 / 60%), 0 4px 4px rgb(0 0 0 / 50%);
+    box-shadow: 0 0 1rem rgb(0 0 0 / 60%), 0 4px 4px rgb(0 0 0 / 50%);
+    z-index: 5;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    transition: all .5s ease;
+    width: 14rem;
+    height: 100% !important;
+
+    .imgOverlay {
+      visibility: visible;
+    }
+  }
+}
+
+.cardImg {
+  object-fit: cover;
+  width: 14rem;
+  height: 24rem;
+}
+
+.imgOverlay {
+  visibility: hidden;
+  display: flex;
+  align-items: end;
+  word-break: break-word;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  border-radius: 0px !important;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  &:hover {
+    visibility: visible;
+  }
+}
+
+.cardBody {
+  position: relative;
+  background: #000;
+  border-radius: var(--bs-card-inner-border-radius) !important;
+}

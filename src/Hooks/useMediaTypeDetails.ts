@@ -91,8 +91,11 @@ export interface Results {
 }
 
 export interface In {
-  link: string;
+  link?: string;
   flatrate: Flatrate[];
+  buy: Flatrate[];
+  rent: Flatrate[];
+  ads: Flatrate[];
 }
 
 export interface Flatrate {

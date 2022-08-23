@@ -1,5 +1,5 @@
 .carouselCaption {
-  text-align: left;
+  text-align: center;
   left: 0;
   top: 0;
   right: initial;
@@ -9,6 +9,7 @@
   flex-direction: column;
   justify-content: center;
   color: #fff;
+  padding: 0 1rem;
 }
 
 .carouselFigure {
@@ -28,8 +29,9 @@
   position: relative;
 }
 .figureImg {
-  width: 30%;
+  width: 14rem;
   border-radius: 5px;
+  margin: 0 auto;
 }
 
 .overview {

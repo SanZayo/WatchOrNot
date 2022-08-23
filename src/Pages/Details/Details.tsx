@@ -1,9 +1,11 @@
-import { Card, Col, Container, Figure, Row, Spinner } from "react-bootstrap";
+import { Badge, Button, ButtonGroup, Card, Col, Container, Figure, Row, Spinner } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import Rating from "../../Components/Rating";
 import useLanguages from "../../Hooks/useLanguages";
-import useMediaTypeDetails, { MediaTypeDetails, Result } from "../../Hooks/useMediaTypeDetails";
+import useMediaTypeDetails, { Flatrate, In, MediaTypeDetails, Result } from "../../Hooks/useMediaTypeDetails";
 import map from "lodash/map";
+import find from "lodash/find";
+import uniqBy from "lodash/uniqBy";
 import moment from "moment";
 
 import styles from "./Details.module.scss";
@@ -25,6 +27,21 @@ function Details() {
   const languageSpoken =
     Object.keys(mediaDetails).length > 0 ? map(mediaDetails.spoken_languages, "english_name").join(", ") : "";
 
+  const certificate =
+    Object.keys(mediaDetails).length > 0 ? find(mediaDetails.releases.countries, ["iso_3166_1", "IN"]) : "";
+
+  let watchProviders: Flatrate[] = [];
+  if (Object.keys(mediaDetails).length > 0 && mediaDetails["watch/providers"].results.IN) {
+    const types = mediaDetails["watch/providers"].results.IN as any;
+    const watchTypes: Flatrate[] = [];
+    Object.keys(types).forEach((item: string) => {
+      if (Array.isArray(types[item])) {
+        watchTypes.push(...types[item]);
+      }
+    });
+    watchProviders = uniqBy(watchTypes, "provider_id");
+  }
+
   useEffect(() => {
     if (Object.keys(mediaDetails).length > 0) {
       const list = mediaDetails.videos.results.filter((video) => video.site === "YouTube");
@@ -39,58 +56,86 @@ function Details() {
         <Row>
           <Col md={3}>
             <div className={styles.mediaDetails}>
-              <Figure.Image src={`https://image.tmdb.org/t/p/w300/${mediaDetails.poster_path}`} />
-              <h2>
+              <Figure.Image
+                className={styles.figureImg}
+                src={`https://image.tmdb.org/t/p/w300/${mediaDetails.poster_path}`}
+              />
+              <h3>
                 {mediaDetails.title} ({mediaDetails.release_date.split("-")[0]})
-              </h2>
-              <p className="d-flex align-items-center justify-content-center gap-1 flex-wrap">
-                <span className={styles.certification}>{` ${mediaDetails.releases.countries[0].certification} `}</span>
-                {`  `}
-                {moment(mediaDetails.releases.countries[0].release_date).format("DD-MM-YYYY")}(
-                {mediaDetails.releases.countries[0].iso_3166_1})<i className="bi bi-dot"></i>
-                {convertToHours(mediaDetails.runtime)}
-                <i className="bi bi-dot"></i>
-                {languages[mediaDetails.original_language]}
-              </p>
-              <p className="d-flex align-items-center justify-content-center gap-1 flex-wrap">
-                <Rating vote_average={mediaDetails.vote_average} />
-                <i className="bi bi-dot"></i>
-                {genres}
-              </p>
+              </h3>
               {mediaDetails.tagline && (
                 <p>
                   <i>{mediaDetails.tagline}</i>
                 </p>
               )}
-              <p className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
-                {mediaDetails["watch/providers"].results.IN.flatrate.map((item, idx) => (
-                  <Figure.Image
-                    style={{ width: "3rem" }}
-                    className={styles.figureImg}
-                    src={`https://image.tmdb.org/t/p/w300/${item.logo_path}`}
-                    key={idx.toString()}
-                  />
-                ))}
+              <p className="d-flex align-items-center justify-content-center gap-1 flex-wrap">
+                {certificate && (
+                  <>
+                    {certificate["certification"] && (
+                      <span className={styles.certification}>{` ${certificate["certification"]} `}</span>
+                    )}
+                    {`  `}
+                    {moment(mediaDetails.releases.countries[0].release_date).format("DD-MM-YYYY")} (
+                    {mediaDetails.releases.countries[0].iso_3166_1})<i className="bi bi-dot"></i>
+                  </>
+                )}
+                {mediaDetails.runtime > 0 && (
+                  <>
+                    {convertToHours(mediaDetails.runtime)}
+                    <i className="bi bi-dot"></i>
+                  </>
+                )}
+                {languages[mediaDetails.original_language]}
               </p>
+              <p className="d-flex align-items-center justify-content-center gap-1 flex-wrap">
+                <Rating vote_average={mediaDetails.vote_average} />
+                {genres}
+              </p>
+              {watchProviders.length > 0 && (
+                <p className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                  {watchProviders.map((item, idx) => (
+                    <Figure.Image
+                      style={{ width: "3rem" }}
+                      className={styles.figureImg}
+                      src={`https://image.tmdb.org/t/p/w300/${item.logo_path}`}
+                      key={idx.toString()}
+                    />
+                  ))}
+                </p>
+              )}
             </div>
           </Col>
           <Col md={9}>
             {activeVideo && (
-              <div>
-                <iframe
-                  width="1270"
-                  height="550"
-                  src={"https://www.youtube.com/embed/" + activeVideo.key}
-                  title={activeVideo.name}
-                  className="embed hide"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-                <div></div>
-              </div>
+              <>
+                {videosList && videosList.length > 1 && (
+                  <div className="mb-3">
+                    <ButtonGroup aria-label="Basic example">
+                      {videosList.map((item) => (
+                        <Button
+                          variant={item.id === activeVideo.id ? "primary" : "light"}
+                          key={item.id}
+                          onClick={() => setActiveVideo(item)}
+                        >
+                          {item.type}
+                        </Button>
+                      ))}
+                    </ButtonGroup>
+                  </div>
+                )}
+                <div className={styles.fluidMedia}>
+                  <iframe
+                    src={"https://www.youtube.com/embed/" + activeVideo.key}
+                    title={activeVideo.name}
+                    className="embed hide"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </>
             )}
-            <div className="mb-5">
+            <div className="mt-5 mb-5">
               <h5>Overview</h5>
               <p className="text-justify">{mediaDetails.overview}</p>
             </div>
@@ -102,7 +147,7 @@ function Details() {
             <div className={"mb-5 " + styles.listRow}>
               {cast.length > 0 &&
                 cast.map((item, idx) => (
-                  <Col key={`${idx}_${item.id}`}>
+                  <Col className="flex-grow-0" key={`${idx}_${item.id}`}>
                     <Card style={{ width: "9rem", height: "100%" }}>
                       <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w200${item.profile_path}`} />
                       <Card.Body>
