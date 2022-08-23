@@ -9,7 +9,7 @@ body, #root {
 }
 
 .modal-xl {
-  max-width: 80vw;
+  max-width: 75vw;
 }
 .modal-backdrop.show {
   opacity: 0.8;

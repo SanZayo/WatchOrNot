@@ -1,15 +1,43 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Location, Route, Routes, useLocation } from "react-router-dom";
+import { VideoResults } from "../Hooks/useMediaTypeDetails";
+import Configure from "./Configure";
+import Trailer from "../Components/Trailer";
 import Details from "./Details";
 import Home from "./Home";
+import NotFound from "./NotFound";
+import AboutUs from "./AboutUs";
+import ContactUs from "./ContactUs";
+import Shell from "./Shell/Shell";
+
+type LocationState = {
+  background: Location;
+  trailerVideo?: VideoResults;
+};
 
 function AppRoutes() {
+  const location = useLocation();
+  const { background, trailerVideo }: LocationState = (location.state as any) || {};
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/:type/:typeId" element={<Details />}></Route>
+    <>
+      <Routes location={background || location}>
+        <Route path="/" element={<Shell />}>
+          <Route index element={<Home />}></Route>
+          <Route path="movie/:typeId" element={<Details type="movie" />}></Route>
+          <Route path="tv/:typeId" element={<Details type="tv" />}></Route>
+          <Route path="contact" element={<ContactUs />}></Route>
+          <Route path="about" element={<AboutUs />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
+        </Route>
       </Routes>
-    </BrowserRouter>
+      {background && (
+        <Routes>
+          <Route path="/video/:videoId" element={<Trailer video={trailerVideo as VideoResults} />}></Route>
+          <Route path="/configure" element={<Configure />}></Route>
+          <Route path="/search" element={<Configure />}></Route>
+        </Routes>
+      )}
+    </>
   );
 }
 
