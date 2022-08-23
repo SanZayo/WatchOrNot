@@ -1,5 +1,5 @@
 import { Location, Route, Routes, useLocation } from "react-router-dom";
-import { VideoResults } from "../Hooks/useMediaTypeDetails";
+import { VideoResults } from "../Hooks/useMediaDetails";
 import Configure from "./Configure";
 import Trailer from "../Components/Trailer";
 import Details from "./Details";

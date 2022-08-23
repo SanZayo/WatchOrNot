@@ -165,7 +165,7 @@ export interface Recommendations {
   vote_count: number;
 }
 
-function useMediaTypeDetails(endpoint: string, filter: string = ""): MediaTypeDetails {
+function useMediaDetails(endpoint: string, filter: string = ""): MediaTypeDetails {
   const [details, setDetails] = useState({
     mediaDetails: {} as MediaDetails,
     cast: [] as Cast[],
@@ -198,4 +198,4 @@ function useMediaTypeDetails(endpoint: string, filter: string = ""): MediaTypeDe
 }
 
 
-export default useMediaTypeDetails;
+export default useMediaDetails;

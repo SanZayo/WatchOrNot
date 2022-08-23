@@ -1,5 +1,5 @@
 import { Card, Col, Row } from "react-bootstrap";
-import useMediaType, { MediaType } from "../../Hooks/useMediaType";
+import useMedia, { MediaType } from "../../Hooks/useMedia";
 import { Link } from "react-router-dom";
 import Rating from "../Rating";
 import useLanguages from "../../Hooks/useLanguages";
@@ -7,7 +7,7 @@ import useLanguages from "../../Hooks/useLanguages";
 import styles from "./HorizontalList.module.scss";
 
 function HorizontalList(props: any) {
-  const list: MediaType[] = useMediaType("movie/" + props.name, 20);
+  const list: MediaType[] = useMedia("movie/" + props.name, 20);
   const languages = useLanguages();
 
   return (

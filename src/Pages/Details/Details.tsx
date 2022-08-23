@@ -2,7 +2,7 @@ import { Button, ButtonGroup, Card, Col, Figure, Row } from "react-bootstrap";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Rating from "../../Components/Rating";
 import useLanguages from "../../Hooks/useLanguages";
-import useMediaTypeDetails, { Flatrate, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaTypeDetails";
+import useMediaDetails, { Flatrate, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaDetails";
 import map from "lodash/map";
 import find from "lodash/find";
 import uniqBy from "lodash/uniqBy";
@@ -22,7 +22,7 @@ function Details({ type }: DetailsProp) {
   const [activeVideo, setActiveVideo] = useState<VideoResults>();
   let { typeId } = useParams();
 
-  const { mediaDetails, cast }: MediaTypeDetails = useMediaTypeDetails(
+  const { mediaDetails, cast }: MediaTypeDetails = useMediaDetails(
     `${type}/${typeId}`,
     "&append_to_response=videos,images,releases,watch/providers,recommendations,translations"
   );

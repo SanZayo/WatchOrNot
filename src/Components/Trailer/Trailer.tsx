@@ -1,6 +1,6 @@
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { VideoResults } from "../../Hooks/useMediaTypeDetails";
+import { VideoResults } from "../../Hooks/useMediaDetails";
 
 import styles from "./Trailer.module.scss";
 

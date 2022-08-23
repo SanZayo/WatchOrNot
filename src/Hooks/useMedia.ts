@@ -21,7 +21,7 @@ export interface MediaType {
 }
 
 
-function useMediaType(endpoint: string, count: number = 4, filter: string = ""): MediaType[] {
+function useMedia(endpoint: string, count: number = 4, filter: string = ""): MediaType[] {
   const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
@@ -33,9 +33,9 @@ function useMediaType(endpoint: string, count: number = 4, filter: string = ""):
         setMovieList(data.results.splice(0, count));
       })
       .catch(err => console.log(err));
-  }, []);
+  }, [endpoint, count, filter]);
 
   return movieList;
 }
 
-export default useMediaType;
+export default useMedia;

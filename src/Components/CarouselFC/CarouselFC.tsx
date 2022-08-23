@@ -5,13 +5,13 @@ import Carousel from "react-bootstrap/Carousel";
 import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
 
-import useMediaType, { MediaType } from "../../Hooks/useMediaType";
+import useMedia, { MediaType } from "../../Hooks/useMedia";
 import useLanguages from "../../Hooks/useLanguages";
 import Rating from "../Rating";
 import styles from "./CarouselFC.module.scss";
 
 function CarouselFC() {
-  const trending: MediaType[] = useMediaType(
+  const trending: MediaType[] = useMedia(
     "discover/movie",
     1,
     "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
