@@ -1,8 +1,8 @@
-import { Badge, Button, ButtonGroup, Card, Col, Container, Figure, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Card, Col, Figure, Row } from "react-bootstrap";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Rating from "../../Components/Rating";
 import useLanguages from "../../Hooks/useLanguages";
-import useMediaTypeDetails, { Flatrate, In, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaTypeDetails";
+import useMediaTypeDetails, { Flatrate, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaTypeDetails";
 import map from "lodash/map";
 import find from "lodash/find";
 import uniqBy from "lodash/uniqBy";
@@ -11,7 +11,6 @@ import moment from "moment";
 import styles from "./Details.module.scss";
 import { useState, useEffect } from "react";
 import Loading from "../../Components/Loading";
-import Trailer from "../../Components/Trailer";
 
 type DetailsProp = {
   type: string;
@@ -23,7 +22,7 @@ function Details({ type }: DetailsProp) {
   const [activeVideo, setActiveVideo] = useState<VideoResults>();
   let { typeId } = useParams();
 
-  const { mediaDetails, cast, crew }: MediaTypeDetails = useMediaTypeDetails(
+  const { mediaDetails, cast }: MediaTypeDetails = useMediaTypeDetails(
     `${type}/${typeId}`,
     "&append_to_response=videos,images,releases,watch/providers,recommendations,translations"
   );

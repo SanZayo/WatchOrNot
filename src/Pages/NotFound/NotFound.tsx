@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
-type Props = {};
-
-function NotFound({}: Props) {
+function NotFound() {
   return (
     <div>
       <h2>404 - Page Not Found!</h2>

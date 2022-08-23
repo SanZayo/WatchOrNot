@@ -1,8 +1,4 @@
-import React from "react";
-
-type Props = {};
-
-function ContactUs({}: Props) {
+function ContactUs() {
   return <div>ContactUs</div>;
 }
 

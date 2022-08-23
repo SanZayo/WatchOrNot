@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { VideoResults } from "../../Hooks/useMediaTypeDetails";

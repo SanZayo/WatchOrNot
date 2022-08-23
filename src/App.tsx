@@ -1,4 +1,4 @@
-import { BrowserRouter, Outlet } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import ThemeProvider from "react-bootstrap/ThemeProvider";
 import Container from "react-bootstrap/Container";
 

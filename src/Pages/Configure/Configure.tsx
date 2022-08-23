@@ -1,12 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./Configure.module.scss";
 
-type Props = {};
-
-function Configure({}: Props) {
+function Configure() {
   const navigate = useNavigate();
 
   const closeModal = () => {

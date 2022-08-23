@@ -4,9 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { NavLink, useLocation } from "react-router-dom";
 
-type Props = {};
-
-function Header({}: Props) {
+function Header() {
   const location = useLocation();
   const expand = "md";
   const linkStyle = "nav-link d-flex gap-2 ps-3 pe-3";
