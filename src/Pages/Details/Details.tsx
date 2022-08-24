@@ -1,7 +1,6 @@
 import { Button, ButtonGroup, Card, Col, Figure, Row } from "react-bootstrap";
 import { Link, useLocation, useParams } from "react-router-dom";
 import Rating from "../../Components/Rating";
-import useLanguages from "../../Hooks/useLanguages";
 import useMediaDetails, { Flatrate, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaDetails";
 import map from "lodash/map";
 import find from "lodash/find";
@@ -9,8 +8,9 @@ import uniqBy from "lodash/uniqBy";
 import moment from "moment";
 
 import styles from "./Details.module.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Loading from "../../Components/Loading";
+import { AppContext } from "../../Contexts/AppContext";
 
 type DetailsProp = {
   type: string;
@@ -21,12 +21,15 @@ function Details({ type }: DetailsProp) {
   const [videosList, setVideosList] = useState<VideoResults[]>();
   const [activeVideo, setActiveVideo] = useState<VideoResults>();
   let { typeId } = useParams();
+  const {
+    state: { activeMediaType, languages },
+  } = useContext(AppContext);
+  const allLanguages = languages.allLanguages;
 
   const { mediaDetails, cast }: MediaTypeDetails = useMediaDetails(
     `${type}/${typeId}`,
     "&append_to_response=videos,images,releases,watch/providers,recommendations,translations"
   );
-  const languages = useLanguages();
 
   const mediaDetailsLength = Object.keys(mediaDetails).length;
 
@@ -97,7 +100,7 @@ function Details({ type }: DetailsProp) {
                     <i className="bi bi-dot"></i>
                   </>
                 )}
-                {languages[mediaDetails.original_language]}
+                {allLanguages && allLanguages[mediaDetails.original_language]}
               </p>
               <p className="d-flex align-items-center justify-content-center gap-1 flex-wrap">
                 <Rating vote_average={mediaDetails.vote_average} />
@@ -142,7 +145,11 @@ function Details({ type }: DetailsProp) {
                   <div className={styles.fluidMedia}>
                     <div
                       style={{ backgroundImage: `url(https://i.ytimg.com/vi/${activeVideo.key}/maxresdefault.jpg)` }}
-                    ></div>
+                    >
+                      <div className={styles.playIconWrapper}>
+                        <i className="bi bi-play-fill"></i>
+                      </div>
+                    </div>
                   </div>
                 </Link>
               </>
@@ -176,7 +183,7 @@ function Details({ type }: DetailsProp) {
                 <div className={"mb-5 " + styles.listRowContainer}>
                   {mediaDetails.recommendations.results.map((item, idx) => (
                     <Col key={`${idx}_${item.id}`}>
-                      <Link to={`/movie/${item.id}`}>
+                      <Link to={`/${activeMediaType}/${item.id}`}>
                         <Card bsPrefix={styles.card + " card"} text="light">
                           <Card.Img
                             className={styles.cardImg}

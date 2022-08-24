@@ -7,21 +7,20 @@ import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
 
 import useMedia, { MediaType } from "../../Hooks/useMedia";
-import useLanguages from "../../Hooks/useLanguages";
 import Rating from "../Rating";
 import styles from "./CarouselFC.module.scss";
 import { AppContext } from "../../Contexts/AppContext";
 
 function CarouselFC() {
   const {
-    state: { activeMediaType },
+    state: { activeMediaType, languages },
   } = useContext(AppContext);
+  const allLanguages = languages.allLanguages;
   const trending: MediaType[] = useMedia(
     "discover/" + activeMediaType,
     20,
     "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
   );
-  const languages = useLanguages();
 
   return (
     <Carousel fade controls={false} indicators={false}>
@@ -41,7 +40,7 @@ function CarouselFC() {
                 <p>
                   <Rating vote_average={item.vote_average} />
                   {` `}
-                  {languages[item.original_language]}
+                  {allLanguages && allLanguages[item.original_language]}
                 </p>
                 <p className={styles.overview}>{item.overview}</p>
                 <div className="actions">

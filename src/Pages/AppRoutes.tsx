@@ -22,11 +22,11 @@ function AppRoutes() {
     <>
       <Routes location={background || location}>
         <Route path="/" element={<Shell />}>
-          <Route index element={<Home />}></Route>
           <Route path="movie/:typeId" element={<Details type="movie" />}></Route>
           <Route path="tv/:typeId" element={<Details type="tv" />}></Route>
           <Route path="contact" element={<ContactUs />}></Route>
           <Route path="about" element={<AboutUs />}></Route>
+          <Route index element={<Home />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Route>
       </Routes>

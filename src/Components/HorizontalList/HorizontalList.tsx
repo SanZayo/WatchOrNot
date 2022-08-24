@@ -3,7 +3,6 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import Rating from "../Rating";
-import useLanguages from "../../Hooks/useLanguages";
 import useMedia, { MediaType } from "../../Hooks/useMedia";
 import { AppContext } from "../../Contexts/AppContext";
 
@@ -11,10 +10,10 @@ import styles from "./HorizontalList.module.scss";
 
 function HorizontalList(props: any) {
   const {
-    state: { activeMediaType },
+    state: { activeMediaType, languages },
   } = useContext(AppContext);
+  const allLanguages = languages.allLanguages;
   const list: MediaType[] = useMedia(`${activeMediaType}/${props.name}`, 20);
-  const languages = useLanguages();
 
   return (
     <>
@@ -39,7 +38,7 @@ function HorizontalList(props: any) {
                     <div>
                       <Rating vote_average={item.vote_average} />
                       {` `}
-                      {languages[item.original_language]}
+                      {allLanguages && allLanguages[item.original_language]}
                     </div>
                   </Card.Body>
                 </Card>
