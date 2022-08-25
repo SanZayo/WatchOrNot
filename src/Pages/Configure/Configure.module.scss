@@ -3,3 +3,10 @@
   color: #fff;
   border-bottom: transparent !important;
 }
+
+.modalBody {
+  background-color: #000;
+  color: #fff;
+  border-bottom-left-radius: var(--bs-modal-inner-border-radius);
+  border-bottom-right-radius: var(--bs-modal-inner-border-radius);
+}

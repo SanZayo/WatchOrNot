@@ -7,11 +7,13 @@ type AppProviderProps = { children: React.ReactNode };
 type AppProviderState = {
   activeMediaType: string;
   languages: Languages;
+  activeLanguages: Record<string, string>;
 };
 
 const initialState: AppProviderState = {
   activeMediaType: "movie",
   languages: {} as Languages,
+  activeLanguages: {} as Record<string, string>,
 };
 
 function reducer(state: any, action: any) {
@@ -28,7 +30,7 @@ const AppProvider = ({ children }: AppProviderProps) => {
 
   useEffect(() => {
     if (languages) {
-      dispatch({ languages });
+      dispatch({ languages, activeLanguages: { ...languages.topLanguages } });
     }
   }, [languages]);
 

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../Contexts/AppContext";
 
 export interface MediaType {
   adult: boolean;
@@ -23,10 +24,14 @@ export interface MediaType {
 
 function useMedia(endpoint: string, count: number = 4, filter: string = ""): MediaType[] {
   const [mediaList, setMediaList] = useState([]);
+  const {
+    state: { activeLanguages }
+  } = useContext(AppContext);
 
   useEffect(() => {
+    const withLanguages = activeLanguages ? `&with_original_language=${Object.keys(activeLanguages).join("|")}` : '';
     fetch(
-      `${process.env.REACT_APP_API_URL}${endpoint}?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&language=en-US&with_original_language=hi|kn|ml|ta|te|mr${filter}`
+      `${process.env.REACT_APP_API_URL}${endpoint}?api_key=${process.env.REACT_APP_API_KEY}&include_adult=false&language=en-US${withLanguages}${filter}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -34,7 +39,7 @@ function useMedia(endpoint: string, count: number = 4, filter: string = ""): Med
         setMediaList(items);
       })
       .catch(err => console.log(err));
-  }, [endpoint, count, filter]);
+  }, [activeLanguages, endpoint, count, filter]);
 
   return mediaList;
 }
