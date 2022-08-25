@@ -121,7 +121,7 @@ function Details({ type }: DetailsProp) {
             </div>
           </Col>
           <Col md={9}>
-            {activeVideo && (
+            {activeVideo ? (
               <>
                 {videosList && videosList.length > 1 && (
                   <div className="mb-3">
@@ -153,6 +153,14 @@ function Details({ type }: DetailsProp) {
                   </div>
                 </Link>
               </>
+            ) : (
+              <Figure className={styles.figure}>
+                <div className={styles.carouselFigure}></div>
+                <Figure.Image
+                  className="d-block w-100"
+                  src={`https://image.tmdb.org/t/p/original${mediaDetails.backdrop_path}`}
+                />
+              </Figure>
             )}
             <div className="mt-5 mb-5">
               <h5>Overview</h5>
