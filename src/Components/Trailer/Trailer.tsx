@@ -16,7 +16,7 @@ function Trailer({ video }: TrailerProps) {
   };
 
   return (
-    <Modal show={true} onHide={() => closeModal()} size="xl" fullscreen="md-down">
+    <Modal show={true} onHide={() => closeModal()} size="xl" fullscreen="md-down" centered>
       <Modal.Header className={styles.modalTitle} closeButton closeVariant="white">
         <Modal.Title>{video?.type}</Modal.Title>
       </Modal.Header>

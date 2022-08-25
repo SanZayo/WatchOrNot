@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Figure, Form, Row, Stack } from "react-bootstrap";
+import { Button, Col, Figure, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./ContactUs.module.scss";
