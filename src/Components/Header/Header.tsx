@@ -30,7 +30,7 @@ function Header() {
           <Offcanvas.Title>Offcanvas</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Nav className="justify-content-end flex-grow-1 pe-3">
+          <Nav className="justify-content-end align-items-center flex-grow-1 pe-3">
             <ButtonGroup aria-label="Basic example">
               <Button
                 variant={activeMediaType === "movie" ? "primary" : "light"}
@@ -58,6 +58,9 @@ function Header() {
             </Nav.Link>
             <Nav.Link as={NavLink} to="/contact" bsPrefix={linkStyle}>
               Contact Us
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/login" bsPrefix={linkStyle}>
+              <Button variant="success">Login</Button>
             </Nav.Link>
           </Nav>
         </Offcanvas.Body>

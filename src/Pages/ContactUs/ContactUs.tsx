@@ -32,19 +32,19 @@ function ContactUs() {
           <p>Our friendly team will love to hear from you!</p>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} md="6" controlId="validationCustom01">
+              <Form.Group as={Col} md="6">
                 <Form.Label>First name</Form.Label>
                 <Form.Control required type="text" placeholder="First name" />
                 <Form.Control.Feedback type="invalid">Please provide a first name.</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="6" controlId="validationCustom02">
+              <Form.Group as={Col} md="6">
                 <Form.Label>Last name</Form.Label>
                 <Form.Control required type="text" placeholder="Last name" />
                 <Form.Control.Feedback type="invalid">Please provide a last name.</Form.Control.Feedback>
               </Form.Group>
             </Row>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="validationCustom03">
+              <Form.Group as={Col}>
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" placeholder="Email" required />
                 <Form.Control.Feedback type="invalid">Please provide a valid email.</Form.Control.Feedback>

@@ -15,6 +15,10 @@ function HorizontalList(props: any) {
   const allLanguages = languages.allLanguages;
   const list: MediaType[] = useMedia(`${activeMediaType}/${props.name}`, 20);
 
+  if (list.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <Row>

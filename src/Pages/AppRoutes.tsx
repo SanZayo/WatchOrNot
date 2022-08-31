@@ -8,6 +8,8 @@ import NotFound from "./NotFound";
 import AboutUs from "./AboutUs";
 import ContactUs from "./ContactUs";
 import Shell from "./Shell/Shell";
+import Login from "./Login";
+import Register from "./Register";
 
 type LocationState = {
   background: Location;
@@ -29,6 +31,8 @@ function AppRoutes() {
           <Route index element={<Home />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Route>
+        <Route path="login" element={<Login />}></Route>
+        <Route path="register" element={<Register />}></Route>
       </Routes>
       {background && (
         <Routes>
