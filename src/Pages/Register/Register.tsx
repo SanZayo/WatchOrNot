@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Form, Stack, Col, Row, Figure, Navbar, Alert, InputGroup } from "react-bootstrap";
+import { Button, Form, Col, Row, Figure, Navbar, Alert, InputGroup } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import styles from "./Register.module.scss";
@@ -79,15 +79,15 @@ function Register() {
       </Navbar>
       <Row>
         <Col className="d-flex flex-column mx-auto w-75">
-          <Figure className={styles.figure}>
+          <Figure className={styles.figure + " mx-auto w-75"}>
             <Figure.Image className="w-100" src="/register.gif" />
           </Figure>
-          <Figure className={styles.figure}>
+          <Figure className={styles.figure + " mx-auto w-75"}>
             <Figure.Image className="w-100" src="/oneOfUs.gif" />
           </Figure>
         </Col>
         <Col>
-          <Form noValidate validated={validated} onSubmit={handleSubmit} className="d-flex flex-column w-100">
+          <Form noValidate validated={validated} onSubmit={handleSubmit} className="d-flex flex-column mx-auto w-50">
             <h2> Register </h2>
             <Form.Group className="mt-3 mb-3">
               <Form.Label>Full Name</Form.Label>
