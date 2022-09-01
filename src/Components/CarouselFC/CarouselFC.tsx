@@ -47,6 +47,7 @@ function CarouselFC() {
                 <Figure.Image
                   className={styles.figureImg}
                   src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
+                  loading="lazy"
                 />
                 <h3>
                   {"name" in item ? item.name : item.title}
@@ -77,6 +78,7 @@ function CarouselFC() {
                 <Figure.Image
                   className="d-block w-100"
                   src={`https://image.tmdb.org/t/p/original${item.backdrop_path}`}
+                  loading="lazy"
                 />
               </Figure>
             </Col>

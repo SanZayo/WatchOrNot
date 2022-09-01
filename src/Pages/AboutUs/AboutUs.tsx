@@ -1,7 +1,7 @@
 function AboutUs() {
   return (
     <div className="mt-5 pt-5" style={{ textAlign: "center" }}>
-      <img src="/hithere.gif" alt="Hello there"></img>
+      <img src="/hithere.gif" alt="Hello there" loading="lazy"></img>
       <br />
       <br />
       This site was built using React, React Bootstrap, TypeScript and TMDB APIs.

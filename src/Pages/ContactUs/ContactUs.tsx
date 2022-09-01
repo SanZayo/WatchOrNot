@@ -23,7 +23,7 @@ function ContactUs() {
     <>
       <Row>
         <Figure className={styles.figure}>
-          <Figure.Image className="w-50" src="/contact-us.png" />
+          <Figure.Image className="w-50" src="/contact-us.png" loading="lazy" />
         </Figure>
       </Row>
       <Row className="d-flex pt-5 pb-5 align-items-center justify-content-center">

@@ -80,10 +80,10 @@ function Register() {
       <Row>
         <Col className="d-flex flex-column mx-auto w-75">
           <Figure className={styles.figure + " mx-auto w-75"}>
-            <Figure.Image className="w-100" src="/register.gif" />
+            <Figure.Image className="w-100" src="/register.gif" loading="lazy" />
           </Figure>
           <Figure className={styles.figure + " mx-auto w-75"}>
-            <Figure.Image className="w-100" src="/oneOfUs.gif" />
+            <Figure.Image className="w-100" src="/oneOfUs.gif" loading="lazy" />
           </Figure>
         </Col>
         <Col>

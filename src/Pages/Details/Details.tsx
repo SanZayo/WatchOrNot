@@ -96,6 +96,7 @@ function Details({ type }: DetailsProp) {
               <Figure.Image
                 className={styles.figureImg}
                 src={`https://image.tmdb.org/t/p/w300/${mediaDetails.poster_path}`}
+                loading="lazy"
               />
               <h3>
                 {mediaDetails.title} {` `}{" "}
@@ -137,6 +138,7 @@ function Details({ type }: DetailsProp) {
                       className={styles.figureImg}
                       src={`https://image.tmdb.org/t/p/w300/${item.logo_path}`}
                       key={idx.toString()}
+                      loading="lazy"
                     />
                   ))}
                 </p>
@@ -182,6 +184,7 @@ function Details({ type }: DetailsProp) {
                 <Figure.Image
                   className="d-block w-100"
                   src={`https://image.tmdb.org/t/p/original${mediaDetails.backdrop_path}`}
+                  loading="lazy"
                 />
               </Figure>
             )}

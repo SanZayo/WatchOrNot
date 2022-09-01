@@ -41,6 +41,7 @@ function HorizontalList({ displayName, data, type = "poster" }: IHorizontalListP
                     className={styles.cardImg}
                     variant="top"
                     src={`https://image.tmdb.org/t/p/w300${type === "poster" ? item.poster_path : item.backdrop_path}`}
+                    loading="lazy"
                   />
                   <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>
                     <div className="h5">{item.title}</div>

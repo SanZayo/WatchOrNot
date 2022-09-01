@@ -37,7 +37,7 @@ function Login() {
       <Stack className="d-flex justify-content-center align-items-center mx-auto w-25 mt-5 pt-5">
         <Row>
           <Figure className={styles.figure}>
-            <Figure.Image className="w-100" src="/login.gif" />
+            <Figure.Image className="w-100" src="/login.gif" loading="lazy" />
           </Figure>
         </Row>
         <Form noValidate validated={validated} onSubmit={handleSubmit} className="d-flex flex-column w-100 mt-5">
