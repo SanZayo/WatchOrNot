@@ -1,11 +1,11 @@
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
-import { VideoResults } from "../../Hooks/useMediaDetails";
+import { IVideoResults } from "../../API/getContentById";
 
 import styles from "./Trailer.module.scss";
 
 type TrailerProps = {
-  video: VideoResults;
+  video: IVideoResults;
 };
 
 function Trailer({ video }: TrailerProps) {

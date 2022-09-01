@@ -1,5 +1,4 @@
 import { Location, Route, Routes, useLocation } from "react-router-dom";
-import { VideoResults } from "../Hooks/useMediaDetails";
 import Configure from "./Configure";
 import Trailer from "../Components/Trailer";
 import Details from "./Details";
@@ -10,10 +9,11 @@ import ContactUs from "./ContactUs";
 import Shell from "./Shell/Shell";
 import Login from "./Login";
 import Register from "./Register";
+import { IVideoResults } from "../API/getContentById";
 
 type LocationState = {
   background: Location;
-  trailerVideo?: VideoResults;
+  trailerVideo?: IVideoResults;
 };
 
 function AppRoutes() {
@@ -36,7 +36,7 @@ function AppRoutes() {
       </Routes>
       {background && (
         <Routes>
-          <Route path="/video/:videoId" element={<Trailer video={trailerVideo as VideoResults} />}></Route>
+          <Route path="/video/:videoId" element={<Trailer video={trailerVideo as IVideoResults} />}></Route>
           <Route path="/configure" element={<Configure />}></Route>
           <Route path="/search" element={<Configure />}></Route>
         </Routes>

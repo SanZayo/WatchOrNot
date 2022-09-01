@@ -11,9 +11,10 @@ import { IContentsList } from "../../API/getAllContents";
 export interface IHorizontalListProps {
   displayName: string;
   data: IContentsList[];
+  type?: "backdrop" | "poster";
 }
 
-function HorizontalList({ displayName, data }: IHorizontalListProps) {
+function HorizontalList({ displayName, data, type = "poster" }: IHorizontalListProps) {
   const {
     state: { activeMediaType, languages },
   } = useContext(AppContext);
@@ -31,7 +32,7 @@ function HorizontalList({ displayName, data }: IHorizontalListProps) {
         </Col>
       </Row>
       <Row bsPrefix={"mb-4 " + styles.listRow}>
-        <div className={styles.listRowContainer}>
+        <div className={`${styles[type]} ${styles.listRowContainer}`}>
           {data.map((item, idx) => (
             <Col key={`${idx}_${item.id}`} className="flex-grow-0">
               <Link to={`/${activeMediaType}/${item.id}`}>
@@ -39,7 +40,7 @@ function HorizontalList({ displayName, data }: IHorizontalListProps) {
                   <Card.Img
                     className={styles.cardImg}
                     variant="top"
-                    src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+                    src={`https://image.tmdb.org/t/p/w300${type === "poster" ? item.poster_path : item.backdrop_path}`}
                   />
                   <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>
                     <div className="h5">{item.title}</div>

@@ -1,16 +1,25 @@
+import { useState, useEffect, useContext } from "react";
 import { Button, ButtonGroup, Card, Col, Figure, Row } from "react-bootstrap";
 import { Link, useLocation, useParams } from "react-router-dom";
-import Rating from "../../Components/Rating";
-import useMediaDetails, { Flatrate, MediaTypeDetails, VideoResults } from "../../Hooks/useMediaDetails";
+import { useQuery } from "@tanstack/react-query";
 import map from "lodash/map";
 import find from "lodash/find";
 import uniqBy from "lodash/uniqBy";
 import moment from "moment";
 
-import styles from "./Details.module.scss";
-import { useState, useEffect, useContext } from "react";
+import Rating from "../../Components/Rating";
 import Loading from "../../Components/Loading";
+import HorizontalList from "../../Components/HorizontalList";
 import { AppContext } from "../../Contexts/AppContext";
+import getContentById, {
+  IFlatrate,
+  IGetContentByIdArgs,
+  IMediaTypeDetails,
+  IVideoResults,
+} from "../../API/getContentById";
+import { convertToHours } from "../../Utils";
+
+import styles from "./Details.module.scss";
 
 type DetailsProp = {
   type: string;
@@ -18,42 +27,28 @@ type DetailsProp = {
 
 function Details({ type }: DetailsProp) {
   const location = useLocation();
-  const [videosList, setVideosList] = useState<VideoResults[]>();
-  const [activeVideo, setActiveVideo] = useState<VideoResults>();
+  const [videosList, setVideosList] = useState<IVideoResults[]>();
+  const [activeVideo, setActiveVideo] = useState<IVideoResults>();
   let { typeId } = useParams();
   const {
-    state: { activeMediaType, languages },
+    state: { activeMediaType, languages, activeLanguages },
   } = useContext(AppContext);
   const allLanguages = languages.allLanguages;
 
-  const { mediaDetails, cast }: MediaTypeDetails = useMediaDetails(
-    `${type}/${typeId}`,
-    "&append_to_response=videos,images,releases,watch/providers,recommendations,translations"
+  const args: IGetContentByIdArgs = {
+    endpoint: `${type}/${typeId}`,
+    filter: "&append_to_response=videos,images,releases,watch/providers,recommendations,translations",
+    activeLanguages,
+  };
+
+  const { isLoading, isError, data, error } = useQuery<IMediaTypeDetails>([activeMediaType, Object.values(args)], () =>
+    getContentById(args)
   );
 
-  const mediaDetailsLength = Object.keys(mediaDetails).length;
-
-  const genres: string = mediaDetailsLength > 0 ? map(mediaDetails.genres, "name").join(", ") : "";
-  const convertToHours = (n: number): string => `${(n / 60) ^ 0}`.slice(-2) + "h " + ("0" + (n % 60)).slice(-2) + "min";
-  const languageSpoken = mediaDetailsLength > 0 ? map(mediaDetails.spoken_languages, "english_name").join(", ") : "";
-
-  const certificate =
-    mediaDetailsLength > 0 && type !== "tv" ? find(mediaDetails.releases.countries, ["iso_3166_1", "IN"]) : "";
-
-  let watchProviders: Flatrate[] = [];
-  if (mediaDetailsLength > 0 && mediaDetails["watch/providers"].results.IN) {
-    const types = mediaDetails["watch/providers"].results.IN as any;
-    const watchTypes: Flatrate[] = [];
-    Object.keys(types).forEach((item: string) => {
-      if (Array.isArray(types[item])) {
-        watchTypes.push(...types[item]);
-      }
-    });
-    watchProviders = uniqBy(watchTypes, "provider_id");
-  }
+  const { mediaDetails, cast }: IMediaTypeDetails = data || ({} as IMediaTypeDetails);
 
   useEffect(() => {
-    if (Object.keys(mediaDetails).length > 0) {
+    if (mediaDetails && Object.keys(mediaDetails).length > 0) {
       const list = mediaDetails.videos.results.filter((video) => video.site === "YouTube");
       setVideosList(list);
       setActiveVideo(list[0]);
@@ -63,6 +58,34 @@ function Details({ type }: DetailsProp) {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [type, typeId]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <>Something went wrong! {error}</>;
+  }
+
+  const mediaDetailsLength = (mediaDetails && Object.keys(mediaDetails).length) || 0;
+
+  const genres: string = mediaDetailsLength > 0 ? map(mediaDetails.genres, "name").join(", ") : "";
+  const languageSpoken = mediaDetailsLength > 0 ? map(mediaDetails.spoken_languages, "english_name").join(", ") : "";
+
+  const certificate =
+    mediaDetailsLength > 0 && type !== "tv" ? find(mediaDetails.releases.countries, ["iso_3166_1", "IN"]) : "";
+
+  let watchProviders: IFlatrate[] = [];
+  if (mediaDetailsLength > 0 && mediaDetails["watch/providers"].results.IN) {
+    const types = mediaDetails["watch/providers"].results.IN as any;
+    const watchTypes: IFlatrate[] = [];
+    Object.keys(types).forEach((item: string) => {
+      if (Array.isArray(types[item])) {
+        watchTypes.push(...types[item]);
+      }
+    });
+    watchProviders = uniqBy(watchTypes, "provider_id");
+  }
 
   return (
     <>
@@ -140,7 +163,7 @@ function Details({ type }: DetailsProp) {
                 )}
                 <Link
                   to={`/video/${activeVideo.id}`}
-                  state={{ background: location, trailerVideo: activeVideo as VideoResults }}
+                  state={{ background: location, trailerVideo: activeVideo as IVideoResults }}
                 >
                   <div className={styles.fluidMedia}>
                     <div
@@ -185,34 +208,7 @@ function Details({ type }: DetailsProp) {
                   </Col>
                 ))}
             </div>
-            {mediaDetails.recommendations.results.length > 0 && (
-              <>
-                <h5>Recommendations</h5>
-                <div className={"mb-5 " + styles.listRowContainer}>
-                  {mediaDetails.recommendations.results.map((item, idx) => (
-                    <Col key={`${idx}_${item.id}`}>
-                      <Link to={`/${activeMediaType}/${item.id}`}>
-                        <Card bsPrefix={styles.card + " card"} text="light">
-                          <Card.Img
-                            className={styles.cardImg}
-                            variant="top"
-                            src={`https://image.tmdb.org/t/p/w300${item.backdrop_path}`}
-                          />
-                          <Card.Body bsPrefix={"card-img-overlay " + styles.imgOverlay}>
-                            <div className="h5">{item.title}</div>
-                            <div>
-                              <Rating vote_average={item.vote_average} />
-                              {` `}
-                              {languages[item.original_language]}
-                            </div>
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Col>
-                  ))}
-                </div>
-              </>
-            )}
+            <HorizontalList displayName="Recommendations" data={mediaDetails.recommendations.results} type="backdrop" />
             <div className="mb-4 "></div>
           </Col>
         </Row>

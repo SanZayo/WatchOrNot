@@ -73,3 +73,15 @@
   background: #000;
   border-radius: var(--bs-card-inner-border-radius) !important;
 }
+
+.backdrop {
+  .card {
+    width: 24rem;
+    height: 14rem;
+  }
+
+  .cardImg {
+    width: 24rem;
+    height: 14rem;
+  }
+}

@@ -1,0 +1,1 @@
+export const convertToHours = (n: number): string => `${(n / 60) ^ 0}`.slice(-2) + "h " + ("0" + (n % 60)).slice(-2) + "min";
