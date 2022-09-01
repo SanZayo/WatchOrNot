@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Form, Stack, Col, Row, Figure, Navbar } from "react-bootstrap";
+import { Button, Form, Col, Figure, Navbar } from "react-bootstrap";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import styles from "./Login.module.scss";
@@ -34,15 +34,13 @@ function Login() {
           </NavLink>
         </Navbar.Brand>
       </Navbar>
-      <Stack className="d-flex justify-content-center align-items-center mx-auto w-25 mt-5 pt-5">
-        <Row>
+      <Col className="d-flex flex-column align-items-center mt-5 pt-3" sm={12}>
+        <Form noValidate validated={validated} onSubmit={handleSubmit} className="d-flex flex-column w-25 mt-5">
           <Figure className={styles.figure}>
             <Figure.Image className="w-100" src="/login.gif" loading="lazy" />
           </Figure>
-        </Row>
-        <Form noValidate validated={validated} onSubmit={handleSubmit} className="d-flex flex-column w-100 mt-5">
           <h2> Login </h2>
-          <Form.Group className="mt-3 mb-3">
+          <Form.Group as={Col} className="mt-3 mb-3" md={12}>
             <Form.Label>Email</Form.Label>
             <Form.Control
               required
@@ -55,7 +53,7 @@ function Login() {
             />
             <Form.Control.Feedback type="invalid">Please provide a email.</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group className="mb-3">
+          <Form.Group as={Col} className="mb-3" md={12}>
             <Form.Label>Password</Form.Label>
             <Form.Control
               required
@@ -77,7 +75,7 @@ function Login() {
             </Button>
           </Col>
         </Form>
-      </Stack>
+      </Col>
     </>
   );
 }
