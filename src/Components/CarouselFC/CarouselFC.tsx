@@ -5,26 +5,41 @@ import Row from "react-bootstrap/Row";
 import Carousel from "react-bootstrap/Carousel";
 import Figure from "react-bootstrap/Figure";
 import Button from "react-bootstrap/Button";
+import { useQuery } from "@tanstack/react-query";
 
-import useMedia, { MediaType } from "../../Hooks/useMedia";
 import Rating from "../Rating";
 import styles from "./CarouselFC.module.scss";
 import { AppContext } from "../../Contexts/AppContext";
+import getAllContents, { IContents } from "../../API/getAllContents";
+import { IGetAllContentsArgs } from "./../../API/getAllContents";
+import Loading from "../Loading";
 
 function CarouselFC() {
   const {
-    state: { activeMediaType, languages },
+    state: { activeMediaType, languages, activeLanguages },
   } = useContext(AppContext);
   const allLanguages = languages.allLanguages;
-  const trending: MediaType[] = useMedia(
-    "discover/" + activeMediaType,
-    20,
-    "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10"
+  const args: IGetAllContentsArgs = {
+    endpoint: "discover/" + activeMediaType,
+    filter: "&sort_by=release_date.desc&vote_average.gte=7.5&vote_count.gte=10",
+    activeLanguages,
+  };
+
+  const { isLoading, isError, data, error } = useQuery<IContents[]>([activeMediaType, Object.values(args)], () =>
+    getAllContents(args)
   );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <>Something went wrong! {error}</>;
+  }
 
   return (
     <Carousel fade controls={false} indicators={false}>
-      {trending.map((item) => (
+      {data.map((item) => (
         <Carousel.Item key={item.id} className={styles.figureImg}>
           <Row>
             <Col md={4}>

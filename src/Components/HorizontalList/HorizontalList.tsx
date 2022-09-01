@@ -1,21 +1,40 @@
 import { useContext } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import Rating from "../Rating";
-import useMedia, { MediaType } from "../../Hooks/useMedia";
 import { AppContext } from "../../Contexts/AppContext";
 
 import styles from "./HorizontalList.module.scss";
+import getAllContents, { IContents, IGetAllContentsArgs } from "../../API/getAllContents";
+import Loading from "../Loading";
 
 function HorizontalList(props: any) {
   const {
-    state: { activeMediaType, languages },
+    state: { activeMediaType, languages, activeLanguages },
   } = useContext(AppContext);
   const allLanguages = languages.allLanguages;
-  const list: MediaType[] = useMedia(`${activeMediaType}/${props.name}`, 20);
 
-  if (list.length === 0) {
+  const args: IGetAllContentsArgs = {
+    endpoint: `${activeMediaType}/${props.name}`,
+    activeLanguages,
+  };
+
+  const { isLoading, isError, data, error } = useQuery<IContents[]>(
+    [`${activeMediaType}/${props.name}`, Object.values(args)],
+    () => getAllContents(args)
+  );
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (isError) {
+    return <>Something went wrong! {error}</>;
+  }
+
+  if (data.length === 0) {
     return null;
   }
 
@@ -28,7 +47,7 @@ function HorizontalList(props: any) {
       </Row>
       <Row bsPrefix={"mb-4 " + styles.listRow}>
         <div className={styles.listRowContainer}>
-          {list.map((item, idx) => (
+          {data.map((item, idx) => (
             <Col key={`${idx}_${item.id}`} className="flex-grow-0">
               <Link to={`/${activeMediaType}/${item.id}`}>
                 <Card bsPrefix={styles.card + " card"} text="light">
