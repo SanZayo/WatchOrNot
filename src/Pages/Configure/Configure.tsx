@@ -7,9 +7,9 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 import { AppContext } from "../../Contexts/AppContext";
-import { Languages } from "../../Hooks/useLanguages";
 
 import styles from "./Configure.module.scss";
+import { ILanguages } from "../../API/getAllLanguages";
 // import { Dropdown, DropdownButton, InputGroup } from "react-bootstrap";
 
 function Configure() {
@@ -19,7 +19,7 @@ function Configure() {
     state: { activeLanguages, languages },
     dispatch,
   } = useContext(AppContext);
-  const { topLanguages }: Languages = languages;
+  const { topLanguages }: ILanguages = languages;
 
   const [selected, setSelected] = useState<Record<string, string>>(activeLanguages);
   const [validated, setValidated] = useState<boolean>(true);
