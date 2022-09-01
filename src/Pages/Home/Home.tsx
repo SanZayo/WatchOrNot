@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
 import CarouselFC from "../../Components/CarouselFC";
-import HorizontalList from "../../Components/HorizontalList";
 import { AppContext } from "../../Contexts/AppContext";
 // import styles from "./Home.module.css";
+import MoviesList from "./MoviesList";
 
 function Home() {
   const {
@@ -17,12 +17,12 @@ function Home() {
       <CarouselFC />
       {activeMediaType === "movie" && (
         <>
-          <HorizontalList name="now_playing" displayName="In Theaters" />
-          <HorizontalList name="upcoming" displayName="Upcoming" />
+          <MoviesList name="now_playing" displayName="In Theaters" />
+          <MoviesList name="upcoming" displayName="Upcoming" />
         </>
       )}
-      <HorizontalList name="popular" displayName="Popular" />
-      <HorizontalList name="top_rated" displayName="Top Rated" />
+      <MoviesList name="popular" displayName="Popular" />
+      <MoviesList name="top_rated" displayName="Top Rated" />
     </>
   );
 }

@@ -1,38 +1,23 @@
 import { useContext } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
 import Rating from "../Rating";
 import { AppContext } from "../../Contexts/AppContext";
 
 import styles from "./HorizontalList.module.scss";
-import getAllContents, { IContents, IGetAllContentsArgs } from "../../API/getAllContents";
-import Loading from "../Loading";
+import { IContentsList } from "../../API/getAllContents";
 
-function HorizontalList(props: any) {
+export interface IHorizontalListProps {
+  displayName: string;
+  data: IContentsList[];
+}
+
+function HorizontalList({ displayName, data }: IHorizontalListProps) {
   const {
-    state: { activeMediaType, languages, activeLanguages },
+    state: { activeMediaType, languages },
   } = useContext(AppContext);
   const allLanguages = languages.allLanguages;
-
-  const args: IGetAllContentsArgs = {
-    endpoint: `${activeMediaType}/${props.name}`,
-    activeLanguages,
-  };
-
-  const { isLoading, isError, data, error } = useQuery<IContents[]>(
-    [`${activeMediaType}/${props.name}`, Object.values(args)],
-    () => getAllContents(args)
-  );
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return <>Something went wrong! {error}</>;
-  }
 
   if (data.length === 0) {
     return null;
@@ -42,7 +27,7 @@ function HorizontalList(props: any) {
     <>
       <Row>
         <Col>
-          <h4 className="mt-4"> {props.displayName} </h4>
+          <h4 className="mt-4"> {displayName} </h4>
         </Col>
       </Row>
       <Row bsPrefix={"mb-4 " + styles.listRow}>

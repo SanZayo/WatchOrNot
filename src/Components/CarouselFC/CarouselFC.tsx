@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import Rating from "../Rating";
 import styles from "./CarouselFC.module.scss";
 import { AppContext } from "../../Contexts/AppContext";
-import getAllContents, { IContents } from "../../API/getAllContents";
+import getAllContents, { IContentsList } from "../../API/getAllContents";
 import { IGetAllContentsArgs } from "./../../API/getAllContents";
 import Loading from "../Loading";
 
@@ -25,7 +25,7 @@ function CarouselFC() {
     activeLanguages,
   };
 
-  const { isLoading, isError, data, error } = useQuery<IContents[]>([activeMediaType, Object.values(args)], () =>
+  const { isLoading, isError, data, error } = useQuery<IContentsList[]>([activeMediaType, Object.values(args)], () =>
     getAllContents(args)
   );
 
@@ -49,7 +49,7 @@ function CarouselFC() {
                   src={`https://image.tmdb.org/t/p/w300/${item.poster_path}`}
                 />
                 <h3>
-                  {item.name || item.title}
+                  {"name" in item ? item.name : item.title}
                   {` `} {item.release_date && `(${item.release_date?.split("-")[0]})`}
                 </h3>
                 <p>
